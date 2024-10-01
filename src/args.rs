@@ -24,9 +24,13 @@ impl Arg {
         Ok(this)
     }
 
-    pub unsafe fn get_str(self,idx:usize)->&'static str{
+    pub unsafe fn get_str(&self,idx:usize)->&'static str{
         let cache = core::slice::from_raw_parts_mut(self.argv, self.argc).get_unchecked(idx);
         utils::c_string_to_rust(*cache).unwrap()
+    }
+
+    pub fn get_raw_data(&self)->(*mut *mut u8,usize){
+        (self.argv,self.argc)
     }
 }
 
